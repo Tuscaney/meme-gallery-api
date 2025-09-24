@@ -1,12 +1,17 @@
 {
   "name": "meme-gallery-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
+  "type": "module",
+  "description": "A basic Express API with GET/POST /memes routes.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
+  "keywords": ["express", "api", "memes", "node"],
   "author": "",
-  "license": "ISC",
-  "description": ""
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
+
