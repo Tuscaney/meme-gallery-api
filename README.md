@@ -33,3 +33,21 @@ A tiny Express API (ES Modules) that demonstrates **GET /memes**, **GET /memes/:
 
 ```bash
 npm install
+
+
+## Screenshots
+
+### GET /memes — list all
+<p align="center">
+  <img src="screenshots/Memes%20ListAll.png" alt="GET /memes — list all memes" width="800">
+</p>
+
+### GET /memes/:id
+<p align="center">
+  <img src="screenshots/Meme%20Id.png" alt="GET /memes/:id — fetch by id" width="800">
+</p>
+
+### POST /memes — create
+<p align="center">
+  <img src="screenshots/Meme%20Create.png" alt="POST /memes — create meme" width="800">
+</p>
