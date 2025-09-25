@@ -50,4 +50,4 @@ npm install
 ### POST /memes — create
 <p align="center">
   <img src="screenshots/Meme%20Create.png" alt="POST /memes — create meme" width="800">
-</p>
+</p> 
