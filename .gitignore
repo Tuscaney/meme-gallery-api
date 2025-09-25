@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Env files
+.env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-*.log*
+pnpm-debug.log*
+
+# OS junk
+.DS_Store
+
+# Editor settings
+.vscode/
+.idea/
