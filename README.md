@@ -31,9 +31,10 @@ A tiny Express API (ES Modules) that demonstrates **GET /memes**, **GET /memes/:
 
 ## Setup
 
-```bash
+bash
 npm install
 
+---
 
 ## Screenshots
 
