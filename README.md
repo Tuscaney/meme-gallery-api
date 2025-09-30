@@ -54,3 +54,6 @@ npm install
 
 ### /error-test (500)
 ![Error Test — 500](<screenshots/Meme error test.png>)
+
+### Logger output (console)
+![Console request log](screenshots/console-request-log.png)
