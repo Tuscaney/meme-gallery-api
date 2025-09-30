@@ -46,6 +46,11 @@ app.get("/", (_req, res) => {
   res.send("Meme Gallery API is running. Try GET /memes");
 });
 
+//Test route to confirm error handling
+app.get("/error-test", (_req, _res) => {
+  throw new Error("Test error");
+});
+
 // GET /memes (required)
 app.get("/memes", (_req, res) => {
   res.json(memes);
@@ -87,8 +92,8 @@ app.use((_req, res) => {
 
 // Generic error handler )
 app.use((err, _req, res, _next) => {
-  console.error(err);
-  res.status(500).json({ error: "Internal server error" });
+  console.error(err.stack);
+  res.status(500).json({ error: "Something went wrong!" });
 });
 
 // Port (env-aware)
