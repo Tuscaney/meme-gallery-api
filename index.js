@@ -5,11 +5,12 @@ const app = express();
 // Parse JSON bodies (ES6+)
 app.use(express.json());
 
-// Simple request logger (from your teacher's demo)
-app.use((req, _res, next) => {
+// Simple request logger 
+function logger(req, _res, next) {
   console.log(`${req.method} ${req.url} at ${new Date().toISOString()}`);
   next();
-});
+}
+app.use(logger);
 
 // Handle malformed JSON early
 app.use((err, _req, res, next) => {
