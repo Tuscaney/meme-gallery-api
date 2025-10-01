@@ -85,6 +85,23 @@ app.post("/memes", async (req, res) => {
   res.status(201).json(newMeme);
 });
 
+// add PUT /memes/:id to update title/url
+app.put("/memes/:id", (req, res) => {
+  const { id } = req.params;
+  const { title, url } = req.body;
+  const meme = memes.find((m) => m.id === parseInt(id));
+
+  if (!meme) {
+    return res.status(404).json({ error: "Meme not found" });
+  }
+
+  meme.title = title || meme.title;
+  meme.url = url || meme.url;
+
+  res.json(meme);
+});
+
+
 // 404 fallback for unknown routes
 app.use((_req, res) => {
   res.status(404).json({ error: "Not found" });
