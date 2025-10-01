@@ -58,3 +58,16 @@ npm install
 
 ### Logger output (console)
 ![Console request log](screenshots/console-request-log.png)
+
+---
+
+## Update & Delete — Screenshots
+
+### PUT /memes/:id (update)
+![PUT — Meme Update](<screenshots/PUT Meme Update.png>)
+
+### GET /memes/:id after delete (should be 404)
+![Delete — Meme Id 404](<screenshots/Delete Meme Id.png>)
+
+### GET /memes (verify it’s gone)
+![Verified — Meme Delete](<screenshots/Verified Meme Delete.png>)
