@@ -101,6 +101,19 @@ app.put("/memes/:id", (req, res) => {
   res.json(meme);
 });
 
+// Add a DELETE route to remove a meme by ID
+app.delete("/memes/:id", (req, res) => {
+  const { id } = req.params;
+  const index = memes.findIndex((m) => m.id === parseInt(id));
+
+  if (index === -1) {
+    return res.status(404).json({ error: "Meme not found" });
+  }
+
+  const deleted = memes.splice(index, 1);
+  res.json(deleted[0]);
+});
+
 
 // 404 fallback for unknown routes
 app.use((_req, res) => {
