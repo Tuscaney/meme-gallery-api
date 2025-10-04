@@ -71,3 +71,15 @@ npm install
 
 ### GET /memes (verify it’s gone)
 ![Verified — Meme Delete](<screenshots/Verified Meme Delete.png>)
+
+
+## Database (AWS RDS PostgreSQL)  10-4-2025
+
+**Tables created**
+![Tables](screenshots/DB-tables.png)
+
+**CRUD on RDS (insert → select → update → select → delete → select)**
+![CRUD](screenshots/DB-crud.png)
+
+**RDS Connection Info**
+![RDS conninfo](screenshots/DB-conninfo.png)
