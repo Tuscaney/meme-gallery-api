@@ -7,11 +7,19 @@
   "scripts": {
     "start": "node index.js"
   },
-  "keywords": ["express", "api", "memes", "node"],
+  "keywords": [
+    "express",
+    "api",
+    "memes",
+    "node"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^6.16.3",
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.16.3"
   }
 }
-
