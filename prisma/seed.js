@@ -1,6 +1,7 @@
 // prisma/seed.js
-import { PrismaClient } from '../generated/prisma'; // <= matches generate output
+import { PrismaClient } from '../generated/prisma/index.js';
 const prisma = new PrismaClient();
+
 
 async function main() {
   // upsert so re-running seed is safe
