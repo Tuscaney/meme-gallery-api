@@ -2,6 +2,7 @@
 import "dotenv/config";
 import express from "express";
 import memeRoutes from "./routes/memeRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 // --- Prisma (for DB health check) ---
 import { PrismaClient } from "@prisma/client";
