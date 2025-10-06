@@ -1,14 +1,13 @@
 // prisma/seed.js
-import { PrismaClient } from '../generated/prisma/index.js';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
-
 async function main() {
-  // upsert so re-running seed is safe
+  // upsert so re-running is safe
   const alice = await prisma.user.upsert({
     where: { username: 'alice' },
     update: {},
-    create: { username: 'alice', password: 'pass1' }
+    create: { username: 'alice', password: 'pass1' },
   });
 
   await prisma.meme.upsert({
@@ -17,11 +16,19 @@ async function main() {
     create: {
       title: 'Distracted Boyfriend',
       url: 'https://i.imgur.com/example1.jpg',
-      userId: alice.id
-    }
+      userId: alice.id,
+    },
   });
+
+  console.log('✅ Seed complete for user:', alice.username);
 }
 
 main()
-  .then(() => prisma.$disconnect())
-  .catch((e) => { console.error(e); return prisma.$disconnect(); });
+  .catch((e) => {
+    console.error('❌ Seed failed:', e);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+
