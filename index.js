@@ -1,6 +1,12 @@
 // index.js
+import "dotenv/config";
 import express from "express";
 import memeRoutes from "./routes/memeRoutes.js";
+
+// --- Prisma (for DB health check) ---
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+// --- end Prisma ---
 
 const app = express();
 
@@ -12,6 +18,18 @@ app.use((req, _res, next) => {
   console.log(`${req.method} ${req.url} @ ${new Date().toISOString()}`);
   next();
 });
+
+// --- DB health check route ---
+app.get("/__dbcheck", async (_req, res, next) => {
+  try {
+    const rows = await prisma.$queryRaw`SELECT version()`;
+    const version = rows?.[0]?.version ?? "unknown";
+    res.json({ ok: true, version });
+  } catch (err) {
+    next(err);
+  }
+});
+// --- end DB health check ---
 
 // Health check
 app.get("/", (_req, res) => {
@@ -36,6 +54,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
 
 
