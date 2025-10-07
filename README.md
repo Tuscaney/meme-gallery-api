@@ -102,3 +102,17 @@ _Shows the results of `SELECT * FROM memes WHERE user_id = 1;`_
 **Join users → memes**
 _Shows usernames with their meme titles/urls using an inner JOIN._
 ![JOIN users and memes](screenshots/Join.png)
+
+
+## User Memes Endpoint (Prisma)
+
+These confirm the `/users/:id/memes` route.
+
+### ✅ Success: `GET /users/1/memes`
+Returns all memes created by user **1**.
+![GET /users/1/memes](screenshots/userIDmemes.png)
+
+### ❌ Not Found: `GET /users/999/memes`
+Returns `404` when the user does not exist.
+![GET /users/999/memes](screenshots/user999memes.png)
+
