@@ -1,18 +1,33 @@
 # Dependencies
 node_modules/
 
-# Env files
+# Build outputs (optional)
+dist/
+build/
+
+# Env files (keep only the example tracked)
 .env
 .env.*
+!.env.example
 
 # Logs
 npm-debug.log*
-yarn-*.log*
+yarn-debug.log*
+yarn-error.log*
 pnpm-debug.log*
+*.log
 
 # OS junk
 .DS_Store
+Thumbs.db
 
 # Editor settings
 .vscode/
 .idea/
+
+# Prisma legacy output
+generated/prisma/
+
+# Local SQLite db
+prisma/dev.db
+
