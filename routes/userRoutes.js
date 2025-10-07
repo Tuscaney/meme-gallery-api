@@ -2,16 +2,16 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
 const router = Router();
+const prisma = new PrismaClient();
 
-// GET /users/:id/memes
-router.get("/:id/memes", async (req, res) => {
-  const { id } = req.params;
-
+router.get("/:id/memes", async (req, res, next) => {
   try {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id)) return res.status(400).json({ error: "Invalid user id" });
+
     const userWithMemes = await prisma.user.findUnique({
-      where: { id: parseInt(id) },
+      where: { id },
       include: { memes: true }
     });
 
@@ -21,9 +21,9 @@ router.get("/:id/memes", async (req, res) => {
 
     res.json(userWithMemes.memes);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
 });
 
 export default router;
+

@@ -39,6 +39,7 @@ app.get("/", (_req, res) => {
 
 // Routes
 app.use("/memes", memeRoutes);
+app.use("/users", userRoutes); // <-- mount users routes
 
 // 404 for unknown routes
 app.use((_req, res) => {
@@ -55,6 +56,7 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
 
 
 
