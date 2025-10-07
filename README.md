@@ -116,3 +116,27 @@ Returns all memes created by user **1**.
 Returns `404` when the user does not exist.
 ![GET /users/999/memes](screenshots/user999memes.png)
 
+
+## CRUD with Prisma + AWS RDS — Postman Tests
+
+Below are the requests and responses proving full CRUD for `/memes` and error handling.  
+
+### Create (POST /memes)
+![POST /memes](screenshots/PostMeme.png)
+
+### Read All (GET /memes)
+![GET /memes](screenshots/GetAllMemes.png)
+
+### Read by ID (GET /memes/:id)
+![GET /memes/:id](screenshots/MemeByID.png)
+
+### Update (PUT /memes/:id)
+![PUT /memes/:id](screenshots/UpdateMeme.png)
+
+### Delete (DELETE /memes/:id)
+![DELETE /memes/:id](screenshots/DeleteMeme.png)
+
+### Error Case — Delete Non-existent ID (expects 404)
+![DELETE /memes/:id — 404](screenshots/Delete404.png)
+
+
