@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/* Map singular models to existing plural tables */
+model User {
+  id       Int     @id @default(autoincrement())
+  username String  @unique @db.VarChar(50)
+  password String  @db.VarChar(255)
+  memes    Meme[]
+
+  @@map("users") // table name is "users"
+}
+
+model Meme {
+  id      Int    @id @default(autoincrement())
+  title   String @db.VarChar(100)
+  url     String
+  userId  Int?   @map("user_id") // column is "user_id" and it's nullable in DB
+  user    User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("memes") // table name is "memes"
+}
+

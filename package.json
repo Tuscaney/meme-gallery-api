@@ -3,15 +3,36 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "A basic Express API with GET/POST /memes routes.",
+  "description": "A basic Express API with GET/POST /memes routes, now using Prisma + PostgreSQL.",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "seed": "node prisma/seed.js",
+    "db:seed": "npx prisma db seed",
+    "db:generate": "npx prisma generate",
+    "db:pull": "npx prisma db pull",
+    "db:migrate:dev": "npx prisma migrate dev",
+    "db:status": "npx prisma migrate status",
+    "db:studio": "npx prisma studio"
   },
-  "keywords": ["express", "api", "memes", "node"],
+  "keywords": [
+    "express",
+    "api",
+    "memes",
+    "node",
+    "prisma",
+    "postgresql"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@prisma/client": "^6.16.3",
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.16.3"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
   }
 }
 
