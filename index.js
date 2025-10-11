@@ -1,8 +1,8 @@
-// index.js
 import "dotenv/config";
 import express from "express";
 import memeRoutes from "./routes/memeRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js"; // already imported
 
 // --- Prisma (for DB health check) ---
 import { PrismaClient } from "@prisma/client";
@@ -37,9 +37,10 @@ app.get("/", (_req, res) => {
   res.send("Meme Gallery API (Prisma) is running. Try GET /memes");
 });
 
-// Routes
+// Mount Routes
+app.use("/auth", authRoutes);     // mount auth routes
 app.use("/memes", memeRoutes);
-app.use("/users", userRoutes); // <-- mount users routes
+app.use("/users", userRoutes);    // mount users routes
 
 // 404 for unknown routes
 app.use((_req, res) => {
