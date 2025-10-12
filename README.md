@@ -140,3 +140,19 @@ Below are the requests and responses proving full CRUD for `/memes` and error ha
 ![DELETE /memes/:id — 404](screenshots/Delete404.png)
 
 
+## Screenshots — JWT Auth (Postman)
+
+**Register (POST /auth/register)**  
+Creates a new user and returns the user object (password is hashed in DB).
+
+![Register](./screenshots/Register.png)
+
+**Login (POST /auth/login)**  
+Authenticates with username/password and returns a **JWT** in the `token` field.
+
+![Login](./screenshots/Login.png)
+
+**Create Meme (protected) (POST /memes)**  
+Uses **Authorization: Bearer <token>** to create a meme owned by the logged-in user.
+
+![Create Meme (protected)](./screenshots/CreateMeme(protected).png)
