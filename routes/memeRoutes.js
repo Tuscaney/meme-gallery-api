@@ -1,91 +1,35 @@
-// routes/memeRoutes.js
 import express from "express";
-import { PrismaClient } from "@prisma/client";
+// Use controller functions (keeps DB logic out of routes)
+import {
+  getMemes,
+  getMemeById,
+  createMeme,
+  updateMeme,
+  deleteMeme,
+  toggleLike, // like/unlike toggle
+} from "../controllers/memeController.js";
+// Auth middleware to protect certain routes
 import { authenticateToken } from "../middleware/auth.js";
 
-const prisma = new PrismaClient();
 const router = express.Router();
 
 // GET /memes — list all (includes author username)
-router.get("/", async (_req, res, next) => {
-  try {
-    const memes = await prisma.meme.findMany({
-      include: { user: { select: { id: true, username: true } } },
-      orderBy: { id: "asc" },
-    });
-    res.json(memes);
-  } catch (e) {
-    next(e);
-  }
-});
+router.get("/", getMemes);
 
 // GET /memes/:id — single meme
-router.get("/:id", async (req, res, next) => {
-  try {
-    const id = Number(req.params.id);
-    const meme = await prisma.meme.findUnique({
-      where: { id },
-      include: { user: { select: { id: true, username: true } } },
-    });
-    if (!meme) return res.status(404).json({ error: "Meme not found" });
-    res.json(meme);
-  } catch (e) {
-    next(e);
-  }
-});
+router.get("/:id", getMemeById);
 
-// POST /memes — create (PROTECTED)
-router.post("/", authenticateToken, async (req, res, next) => {
-  try {
-    const { title, url } = req.body || {};
-    if (!title || !url) {
-      return res.status(400).json({ error: "title and url are required" });
-    }
-    const meme = await prisma.meme.create({
-      data: { title, url, userId: req.user.userId },
-    });
-    res.status(201).json(meme);
-  } catch (e) {
-    next(e);
-  }
-});
+// POST /memes — create (PROTECTED: requires Bearer token)
+router.post("/", authenticateToken, createMeme);
 
 // PUT /memes/:id — update title/url
-router.put("/:id", async (req, res, next) => {
-  try {
-    const id = Number(req.params.id);
-    const { title, url } = req.body || {};
-
-    const exists = await prisma.meme.findUnique({ where: { id } });
-    if (!exists) return res.status(404).json({ error: "Meme not found" });
-
-    const updated = await prisma.meme.update({
-      where: { id },
-      data: {
-        title: title ?? exists.title,
-        url: url ?? exists.url,
-      },
-    });
-    res.json(updated);
-  } catch (e) {
-    next(e);
-  }
-});
+router.put("/:id", updateMeme);
 
 // DELETE /memes/:id — remove meme
-router.delete("/:id", async (req, res, next) => {
-  try {
-    const id = Number(req.params.id);
+router.delete("/:id", deleteMeme);
 
-    const exists = await prisma.meme.findUnique({ where: { id } });
-    if (!exists) return res.status(404).json({ error: "Meme not found" });
-
-    const deleted = await prisma.meme.delete({ where: { id } });
-    res.json(deleted);
-  } catch (e) {
-    next(e);
-  }
-});
+// POST /memes/:id/like — toggle like/unlike (PROTECTED)
+router.post("/:id/like", authenticateToken, toggleLike);
 
 export default router;
 
