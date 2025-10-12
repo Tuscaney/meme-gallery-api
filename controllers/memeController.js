@@ -2,7 +2,10 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-// GET /memes
+/**
+ * GET /memes
+ * Note: returns memes and the author's basic info.
+ */
 export const getMemes = async (_req, res, next) => {
   try {
     const data = await prisma.meme.findMany({
@@ -14,7 +17,10 @@ export const getMemes = async (_req, res, next) => {
   }
 };
 
-// GET /memes/:id
+/**
+ * GET /memes/:id
+ * Note: fetch one meme by id; 404 if not found.
+ */
 export const getMemeById = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
@@ -29,17 +35,25 @@ export const getMemeById = async (req, res, next) => {
   }
 };
 
-// POST /memes
+/**
+ * POST /memes
+ * Note: if auth middleware set req.user, prefer that user as owner;
+ *       otherwise fall back to body.userId (keeps compatibility).
+ */
 export const createMeme = async (req, res, next) => {
   try {
     const { title, url, userId } = req.body ?? {};
-    if (!title || !url || !userId) {
+    const authUserId = req.user?.userId; // set by authenticateToken (if used)
+    const ownerId = authUserId ?? Number(userId);
+
+    if (!title || !url || !ownerId) {
       return res
         .status(400)
-        .json({ error: "title, url, and userId are required" });
+        .json({ error: "title, url, and userId (or JWT) are required" });
     }
+
     const created = await prisma.meme.create({
-      data: { title, url, userId: Number(userId) },
+      data: { title, url, userId: ownerId },
     });
     res.status(201).json(created);
   } catch (err) {
@@ -47,7 +61,10 @@ export const createMeme = async (req, res, next) => {
   }
 };
 
-// PUT /memes/:id
+/**
+ * PUT /memes/:id
+ * Note: updates only provided fields; 404 if not found.
+ */
 export const updateMeme = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
@@ -68,7 +85,10 @@ export const updateMeme = async (req, res, next) => {
   }
 };
 
-// DELETE /memes/:id
+/**
+ * DELETE /memes/:id
+ * Note: deletes meme if it exists; 404 if not found.
+ */
 export const deleteMeme = async (req, res, next) => {
   try {
     const id = Number(req.params.id);
@@ -81,5 +101,45 @@ export const deleteMeme = async (req, res, next) => {
     next(err);
   }
 };
+
+/**
+ * POST /memes/:id/like
+ * Note: toggles a like for the authenticated user.
+ *       If like exists -> remove it (unlike); otherwise -> create it (like).
+ *       Requires authenticateToken to set req.user.userId.
+ */
+export const toggleLike = async (req, res, next) => {
+  try {
+    const memeId = Number(req.params.id);
+    const userId = req.user?.userId; // set by auth middleware
+
+    if (!Number.isInteger(memeId)) {
+      return res.status(400).json({ error: "Invalid meme id" });
+    }
+    if (!userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    // Ensure meme exists
+    const meme = await prisma.meme.findUnique({ where: { id: memeId } });
+    if (!meme) return res.status(404).json({ error: "Meme not found" });
+
+    // Check if a like already exists (compound unique: userId + memeId)
+    const existing = await prisma.userLikesMeme.findUnique({
+      where: { userId_memeId: { userId, memeId } },
+    });
+
+    if (existing) {
+      await prisma.userLikesMeme.delete({ where: { id: existing.id } });
+      return res.json({ message: "Meme unliked" });
+    } else {
+      await prisma.userLikesMeme.create({ data: { userId, memeId } });
+      return res.json({ message: "Meme liked" });
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 
 
