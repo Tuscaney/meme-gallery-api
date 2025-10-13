@@ -29,7 +29,13 @@ router.put("/:id", updateMeme);
 router.delete("/:id", deleteMeme);
 
 // POST /memes/:id/like — toggle like/unlike (PROTECTED)
-router.post("/:id/like", authenticateToken, toggleLike);
+// Minimal addition: ensure the JWT includes the scope my token carries: 'like:memes'
+router.post("/:id/like", authenticateToken, (req, res, next) => {
+  const scopes = Array.isArray(req.user?.scope) ? req.user.scope : (req.user?.scopes ?? []);
+  if (!scopes.includes("like:memes")) return res.status(403).send("Forbidden");
+  return toggleLike(req, res, next);
+});
 
 export default router;
+
 
