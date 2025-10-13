@@ -125,6 +125,10 @@ export const deleteMeme = async (req, res, next) => {
  */
 export const toggleLike = async (req, res, next) => {
   try {
+    // Minimal authZ: require the same scope my JWT already has
+    const scopes = Array.isArray(req.user?.scope) ? req.user.scope : (req.user?.scopes ?? []);
+    if (!scopes.includes('like:memes')) return res.status(403).send('Forbidden');
+    
     const memeId = Number(req.params.id);
     if (!Number.isInteger(memeId)) {
       return res.status(400).json({ error: 'Invalid meme id' });
