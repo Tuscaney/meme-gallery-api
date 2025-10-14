@@ -25,7 +25,7 @@ app.use((req, _res, next) => {
 
 // --- Minimal env sanity check (non-fatal) ---
 if (!process.env.JWT_SECRET) {
-// Keep this as a warning (not exit) to avoid surprising behavior during demo
+  // Keep this as a warning (not exit) to avoid surprising behavior during demo
   console.warn("⚠️  JWT_SECRET is not set in .env — auth tokens may fail to verify.");
 }
 // --- end env sanity check ---
@@ -64,11 +64,15 @@ app.use((err, _req, res, _next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-  // Small visibility log to help with JWT debugging during local dev
-  console.log(`JWT_SECRET present: ${!!process.env.JWT_SECRET}`);
-});
+
+// Only listen when not running tests
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+    // Small visibility log to help with JWT debugging during local dev
+    console.log(`JWT_SECRET present: ${!!process.env.JWT_SECRET}`);
+  });
+}
 
 export default app; // (optional) helps with tests or future refactors
 
