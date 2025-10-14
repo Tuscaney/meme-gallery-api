@@ -11,6 +11,9 @@ import {
 // Auth middleware to protect certain routes
 import { authenticateToken } from "../middleware/auth.js";
 
+// Validation
+import { validate, memeSchema, memeUpdateSchema } from "../lib/validation.js";
+
 const router = express.Router();
 
 // GET /memes — list all (includes author username)
