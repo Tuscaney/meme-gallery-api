@@ -22,11 +22,11 @@ router.get("/", getMemes);
 // GET /memes/:id — single meme
 router.get("/:id", getMemeById);
 
-// POST /memes — create (PROTECTED: requires Bearer token)
-router.post("/", authenticateToken, createMeme);
+// POST /memes — create (PROTECTED + validated)
+router.post("/", authenticateToken, validate(memeSchema), createMeme);
 
-// PUT /memes/:id — update title/url
-router.put("/:id", updateMeme);
+// PUT /memes/:id — update title/url (validated partial)
+router.put("/:id", validate(memeUpdateSchema), updateMeme);
 
 // DELETE /memes/:id — remove meme
 router.delete("/:id", deleteMeme);

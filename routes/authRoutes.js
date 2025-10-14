@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
@@ -6,15 +5,13 @@ import { PrismaClient } from "@prisma/client";
 
 import { validate, userSchema } from "../lib/validation.js";
 
-
 const prisma = new PrismaClient();
 const router = express.Router();
 
-// POST /auth/register  -> create a new user
-router.post("/register", async (req, res) => {
+// POST /auth/register  -> create a new user (validated)
+router.post("/register", validate(userSchema), async (req, res) => {
   // read input
   const { username, password } = req.body;
-  if (!username || !password) return res.status(400).json({ error: "username and password required" });
 
   try {
     // hash password (never store plain text)
