@@ -156,3 +156,16 @@ Authenticates with username/password and returns a **JWT** in the `token` field.
 Uses **Authorization: Bearer <token>** to create a meme owned by the logged-in user.
 
 ![Create Meme (protected)](./screenshots/CreateMeme(protected).png)
+
+
+## Proof: Like/Unlike + Tests
+
+**POST `/memes/:id/like` — Like**
+![Like Meme](./screenshots//LikeMeme.png)
+
+**POST `/memes/:id/like` — Unlike**
+![Unlike Meme](./screenshots/UnlikeMeme.png)
+
+**Automated tests (like → unlike + invalid id)**
+![Terminal Test](./screenshots/TerminalTest.png)
+
