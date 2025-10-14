@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 
+import { validate, userSchema } from "../lib/validation.js";
+
+
 const prisma = new PrismaClient();
 const router = express.Router();
 
