@@ -169,3 +169,17 @@ Uses **Authorization: Bearer <token>** to create a meme owned by the logged-in u
 **Automated tests (like → unlike + invalid id)**
 ![Terminal Test](./screenshots/TerminalTest.png)
 
+
+## Validation (Joi) — Proof
+
+**Memes — Success (201)**
+![Meme Success](screenshots/MemeSuccess.png)
+
+**Memes — Failed (400)**
+![Meme Failed](screenshots/MemeFailed.png)
+
+**Users — Success (201)**
+![Users Success](screenshots/UsersSuccess.png)
+
+**Users — Failed (400)**
+![Users Failed](screenshots/UsersFailed.png)
