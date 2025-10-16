@@ -5,15 +5,22 @@
   "type": "module",
   "description": "A basic Express API with GET/POST /memes routes, now using Prisma + PostgreSQL.",
   "scripts": {
+    "prestart": "prisma migrate deploy",
     "start": "node index.js",
+    "dev": "node --watch index.js",
+    "postinstall": "prisma generate",
+
     "seed": "node prisma/seed.js",
     "db:seed": "npx prisma db seed",
     "db:generate": "npx prisma generate",
     "db:pull": "npx prisma db pull",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:status": "npx prisma migrate status",
-    "db:studio": "npx prisma studio",
+
     "test": "cross-env NODE_ENV=test node --test"
+  },
+  "engines": {
+    "node": ">=18 <23"
   },
   "keywords": [
     "express",
