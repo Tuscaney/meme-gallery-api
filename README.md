@@ -183,3 +183,13 @@ Uses **Authorization: Bearer <token>** to create a meme owned by the logged-in u
 
 **Users — Failed (400)**
 ![Users Failed](screenshots/UsersFailed.png)
+
+
+
+## Live API: https://meme-gallery-api-jdtq.onrender.com
+
+**Deployed — Public GET /memes (200)**
+![Deployed Get Memes](screenshots/DeployedGetMemes.png)
+
+**Deployed — Protected POST /memes (201)**
+![Deployed Post Memes](screenshots/DeployedPostMemes.png)
