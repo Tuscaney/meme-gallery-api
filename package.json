@@ -9,14 +9,12 @@
     "start": "node index.js",
     "dev": "node --watch index.js",
     "postinstall": "prisma generate",
-
     "seed": "node prisma/seed.js",
     "db:seed": "npx prisma db seed",
     "db:generate": "npx prisma generate",
     "db:pull": "npx prisma db pull",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:status": "npx prisma migrate status",
-
     "test": "cross-env NODE_ENV=test node --test"
   },
   "engines": {
@@ -40,9 +38,14 @@
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.8.1",
     "cross-env": "^10.1.0",
+    "nodemon": "^3.1.10",
     "prisma": "^6.17.1",
-    "supertest": "^7.1.4"
+    "supertest": "^7.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
