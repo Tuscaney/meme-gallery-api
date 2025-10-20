@@ -9,8 +9,8 @@
     "dev": "nodemon --watch src --ext ts,js,json --exec \"node --loader ts-node/esm src/index.ts --no-warnings\"",
     "prestart": "prisma migrate deploy",
     "start": "node dist/index.js",
-
     "postinstall": "prisma generate",
+
     "seed": "node prisma/seed.js",
     "db:seed": "npx prisma db seed",
     "db:generate": "npx prisma generate",
@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test node --test"
   },
   "engines": {
-    "node": ">=18 <23"
+    "node": "20.x"
   },
   "keywords": [
     "express",
@@ -32,7 +32,6 @@
     "postgresql",
     "typescript"
   ],
-  "author": "",
   "license": "MIT",
   "dependencies": {
     "@prisma/client": "^6.17.1",
@@ -43,9 +42,9 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^22.7.7",
+    "@types/node": "^20.11.30",
     "cross-env": "^10.1.0",
-    "nodemon": "^3.0.1",
+    "nodemon": "^3.1.0",
     "prisma": "^6.17.1",
     "supertest": "^7.1.4",
     "ts-node": "^10.9.2",
@@ -55,3 +54,4 @@
     "seed": "node prisma/seed.js"
   }
 }
+
