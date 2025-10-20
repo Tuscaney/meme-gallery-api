@@ -193,3 +193,14 @@ Uses **Authorization: Bearer <token>** to create a meme owned by the logged-in u
 
 **Deployed — Protected POST /memes (201)**
 ![Deployed Post Memes](screenshots/DeployedPostMemes.png)
+
+
+## TypeScript Refactor (Assignment)
+- Converted **POST `/memes`** to TypeScript with Joi validation and typed responses.
+- `Meme` interface defined in `src/types/index.ts`.
+- Build: `npm run build` → outputs to `dist/`
+- Dev: `npm run dev` (ts-node/esm)
+- Start: `npm start` (runs `dist/index.js`)
+
+## Create Meme (201)
+![Create Meme](screenshots/CreateAMeme.png)
