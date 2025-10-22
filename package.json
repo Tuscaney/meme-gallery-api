@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev:build": "tsc -w -p tsconfig.json",
-    "dev:serve": "nodemon --watch dist --ext js,json --exec \"node dist/index.js\"",
+    "dev:serve": "nodemon --watch dist --ext js,json --ignore \"dist/**/*.map\" --delay 200ms --exec \"node dist/index.js\"",
     "prestart": "prisma migrate deploy",
     "start": "node dist/index.js",
     "postinstall": "prisma generate",
