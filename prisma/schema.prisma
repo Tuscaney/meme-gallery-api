@@ -13,6 +13,14 @@ enum Role {
   ADMIN
 }
 
+/* NEW: Category enum */
+enum Category {
+  FUNNY
+  ANIMALS
+  GAMING
+  OTHER
+}
+
 /* Map singular models to existing plural tables */
 model User {
   id       Int             @id @default(autoincrement())
@@ -35,6 +43,9 @@ model Meme {
 
   likedBy UserLikesMeme[]    // relations from join table
 
+  /* NEW: category with a safe default so migration is non-breaking */
+  category  Category @default(OTHER)
+
   @@map("memes") // table name is "memes"
 }
 
@@ -46,7 +57,6 @@ model UserLikesMeme {
   userId Int
   memeId Int
 
-  @@unique([userId, memeId], name: "userId_memeId") // enables findUnique({ where: { userId_memeId: { ... }}})
+  @@unique([userId, memeId], name: "userId_memeId")
   @@map("user_likes_meme")
 }
-
