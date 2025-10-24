@@ -1,7 +1,7 @@
 // Keep behavior identical to JS version.
 // Strong types on handlers (Request, Response, NextFunction)
 // POST /memes validated with memeSchema and typed with Meme
-// No scope check here (you already do that in the route); only auth/user checks.
+// No scope check here; only auth/user checks.
 
 import type { Request, Response, NextFunction } from "express";
 import { prisma } from "../lib/prisma.js";
@@ -42,16 +42,18 @@ export const getMemeById = async (req: Request, res: Response, next: NextFunctio
 /** POST /memes — strongly typed + validated */
 export const addMeme = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // Validate body (title, url)
+    // Validate body (title, url, optional category)
     const { error } = memeSchema.validate(req.body);
     if (error) {
       return res.status(400).json({ error: error.details?.[0]?.message ?? "Invalid request body" });
     }
 
     const { title, url } = req.body as { title: string; url: string };
+    const { category } = (req.body ?? {}) as Partial<Meme>;
 
     // Prefer userId from JWT (set by authenticateToken)
-    const authUserId = req.user?.userId;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const authUserId = (req as any).user?.userId as number | undefined;
     const bodyUserId = (req.body as Partial<Meme>)?.userId;
     const ownerId =
       (typeof authUserId === "number" && Number.isInteger(authUserId) && authUserId) ||
@@ -65,7 +67,13 @@ export const addMeme = async (req: Request, res: Response, next: NextFunction) =
     }
 
     const created = await prisma.meme.create({
-      data: { title, url, userId: ownerId } as Meme,
+      data: {
+        title,
+        url,
+        userId: ownerId,
+        // only include category if present
+        category: category ?? undefined,
+      } as Meme,
     });
 
     return res.status(201).json(created);
@@ -77,13 +85,13 @@ export const addMeme = async (req: Request, res: Response, next: NextFunction) =
 // Alias to keep routes that import `createMeme` unchanged
 export const createMeme = addMeme;
 
-/** PUT /memes/:id — update title/url (partial) */
+/** PUT /memes/:id — update title/url/category (partial) */
 export const updateMeme = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = Number(req.params.id);
     if (!Number.isInteger(id)) return res.status(400).json({ error: "Invalid meme id" });
 
-    const { title, url } = (req.body ?? {}) as Partial<Meme>;
+    const { title, url, category } = (req.body ?? {}) as Partial<Meme>;
     const existing = await prisma.meme.findUnique({ where: { id } });
     if (!existing) return res.status(404).json({ error: "Meme not found" });
 
@@ -92,6 +100,7 @@ export const updateMeme = async (req: Request, res: Response, next: NextFunction
       data: {
         title: title ?? undefined,
         url: url ?? undefined,
+        category: category ?? undefined,
       },
     });
     res.json(updated);
@@ -122,7 +131,8 @@ export const toggleLike = async (req: Request, res: Response, next: NextFunction
     const memeId = Number(req.params.id);
     if (!Number.isInteger(memeId)) return res.status(400).json({ error: "Invalid meme id" });
 
-    const userId = req.user?.userId;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const userId = (req as any).user?.userId as number | undefined;
     if (!userId) return res.status(401).json({ error: "Unauthorized" });
 
     // Ensure meme exists
