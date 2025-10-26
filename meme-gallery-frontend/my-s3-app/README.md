@@ -7,8 +7,10 @@ This project was built with **React** and **TailwindCSS**, then deployed as a st
 Deployed to region: **us-east-2**
 
 ---
-
+## Screenshots
 ![AWS S3 Live App](./screenshots/AWS-S3LiveApp.png)
+
+![AWS S3 Live App (Incognito )](./screenshots/AWS-S3Incognito.png)
 
 
 
