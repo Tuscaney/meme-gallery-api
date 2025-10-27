@@ -13,4 +13,12 @@ Deployed to region: **us-east-2**
 ![AWS S3 Live App (Incognito )](./screenshots/AWS-S3Incognito.png)
 
 
+### CloudFront Fix: Origin Path & SPA Routing
+- Cleared **Origin path** (was `/index.html`, which caused 403s for `/favicon.ico`, `/assets/*`)
+- Set **Default root object** to `index.html`
+- Added SPA fallbacks under **Error pages**:
+  - 403 → `/index.html` (HTTP 200, TTL 0)
+  - 404 → `/index.html` (HTTP 200, TTL 0)
+- Created cache invalidation: `/*`
+- Verified at **https://dik737e6l9bef.cloudfront.net**
 
